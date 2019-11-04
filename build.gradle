@@ -30,15 +30,11 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor("javax.xml.bind:jaxb-api")
+    annotationProcessor("org.hibernate:hibernate-jpamodelgen")
 
     compile 'io.springfox:springfox-swagger2:2.8.0'
     compile 'io.springfox:springfox-swagger-ui:2.8.0'
-
-    compile 'org.simpleflatmapper:sfm-springjdbc:5.0.1'
-    compile 'org.simpleflatmapper:sfm-tuples:5.0.1'
-
-    annotationProcessor("javax.xml.bind:jaxb-api")
-    annotationProcessor("org.hibernate:hibernate-jpamodelgen")
 }
 
 test {

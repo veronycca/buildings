@@ -73,8 +73,7 @@ public class BuildingController {
     }
 
     @GetMapping("/similar")
-    public List<BuildingEntity> fetchSimilarBuildinsOnStreet(@NotNull String city, @NotNull String street,
-            @NotNull PropertyType type, @NotNull int size) {
+    public List<BuildingEntity> fetchSimilarBuildinsOnStreet(String city, String street, PropertyType type, int size) {
         return buildingDao.getSimilarBuildings(city, street, type, size);
     }
 
