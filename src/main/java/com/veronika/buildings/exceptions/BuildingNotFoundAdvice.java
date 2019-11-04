@@ -12,7 +12,7 @@ public class BuildingNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(BuildingNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(BuildingNotFoundException ex) {
+    String buildingNotFoundHandler(BuildingNotFoundException ex) {
         return ex.getMessage();
     }
 }

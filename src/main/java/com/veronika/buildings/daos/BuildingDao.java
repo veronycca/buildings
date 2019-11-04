@@ -5,6 +5,7 @@ import com.veronika.buildings.model.AddressEntity_;
 import com.veronika.buildings.model.BuildingEntity;
 import com.veronika.buildings.model.BuildingEntity_;
 import com.veronika.buildings.model.PropertyType;
+import com.veronika.buildings.repositories.BuildingRepository;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,7 +20,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BuildingDao extends SimpleJpaRepository<BuildingEntity, Long> {
+public class BuildingDao extends SimpleJpaRepository<BuildingEntity, Long> implements BuildingRepository {
 
     private final EntityManager entityManager;
 
@@ -28,6 +29,7 @@ public class BuildingDao extends SimpleJpaRepository<BuildingEntity, Long> {
         this.entityManager = entityManager;
     }
 
+    @Override
     public List<BuildingEntity> getBuildingsByOwner(String owner) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<BuildingEntity> cr = cb.createQuery(BuildingEntity.class);
@@ -42,6 +44,7 @@ public class BuildingDao extends SimpleJpaRepository<BuildingEntity, Long> {
         return entityManager.createQuery(cr).getResultList();
     }
 
+    @Override
     public List<BuildingEntity> getSimilarBuildings(String city, String street, PropertyType propertyType,
             int size) {
 

@@ -1,14 +1,16 @@
 package com.veronika.buildings.controllers;
 
-import static com.veronika.buildings.converters.TaxRateConverter.propertTaxParamsToTotalTaxRate;
+import static com.veronika.buildings.utils.TaxRateCalculator.propertyTaxParamsToTotalTaxRate;
+import static com.veronika.buildings.utils.EntityOperator.updateBuildingEntity;
+import static com.veronika.buildings.utils.EntityOperator.toBuildingEntity;
 
 import com.veronika.buildings.daos.BuildingDao;
 import com.veronika.buildings.exceptions.BuildingNotFoundException;
+import com.veronika.buildings.model.Building;
 import com.veronika.buildings.model.BuildingEntity;
 import com.veronika.buildings.model.PropertyType;
 import com.veronika.buildings.repositories.BuildingRepository;
 import java.util.List;
-import javax.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,11 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class BuildingController {
 
     private final BuildingRepository buildingRepository;
-    private final BuildingDao buildingDao;
 
-    public BuildingController(BuildingRepository buildingRepository, BuildingDao buildingDao) {
+    public BuildingController(BuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;
-        this.buildingDao = buildingDao;
     }
 
     @GetMapping
@@ -35,46 +35,39 @@ public class BuildingController {
     }
 
     @PostMapping
-    public BuildingEntity saveNewBuilding(@RequestBody BuildingEntity building) {
-        return buildingRepository.save(building);
+    public BuildingEntity saveNewBuilding(@RequestBody Building building) {
+
+        return buildingRepository.save(toBuildingEntity(building));
     }
 
     @GetMapping("/{id}")
     public BuildingEntity fetchBuildingById(@PathVariable Long id) {
-        return buildingRepository.findById(id).orElseThrow(() -> new BuildingNotFoundException(id));
-    }
-
-    @PutMapping("/{id}")
-    public BuildingEntity updateBuildingOrCreateNew(@RequestBody BuildingEntity building, @PathVariable Long id) {
-
         return buildingRepository.findById(id)
-                .map(b -> {
-                    b.setOwner(building.getOwner());
-                    b.setType(building.getType());
-                    b.setValue(building.getValue());
-                    b.setSize(building.getSize());
-                    b.setAddress(building.getAddress());
-                    return buildingRepository.save(building);
-                })
-                .orElseGet(() -> {
-                    building.setId(id);
-                    return buildingRepository.save(building);
-                });
+                .orElseThrow(() -> new BuildingNotFoundException(id));
     }
 
     @GetMapping("/owner/{owner}")
     public List<BuildingEntity> fetchBuildingsByOwner(@PathVariable String owner) {
-        return buildingDao.getBuildingsByOwner(owner);
+        return buildingRepository.getBuildingsByOwner(owner);
     }
 
+    @PutMapping("/{id}")
+    public BuildingEntity updateBuildingById(@RequestBody Building building, @PathVariable Long id) {
+
+        return buildingRepository.findById(id)
+                .map(origin -> updateBuildingEntity(origin, building))
+                .orElseThrow(() -> new BuildingNotFoundException(id));
+    }
+
+
     @GetMapping("/owner/{owner}/tax")
-    public double fetchTotalTaxByOwner(@PathVariable String owner) {
-        return propertTaxParamsToTotalTaxRate(buildingDao.getBuildingsByOwner(owner));
+    public double  fetchTotalTaxByOwner(@PathVariable String owner) {
+        return propertyTaxParamsToTotalTaxRate(buildingRepository.getBuildingsByOwner(owner));
     }
 
     @GetMapping("/similar")
     public List<BuildingEntity> fetchSimilarBuildinsOnStreet(String city, String street, PropertyType type, int size) {
-        return buildingDao.getSimilarBuildings(city, street, type, size);
+        return buildingRepository.getSimilarBuildings(city, street, type, size);
     }
 
 }
