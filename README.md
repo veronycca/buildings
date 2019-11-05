@@ -7,7 +7,7 @@ The aim of this API is to manage real estate registry for building.
 How to run
 ----------
 
-After you run ApplicationBuilding class, API will start on your default host and port 8080. 
+Download and build gradle project. After you run ApplicationBuilding class, API will start on your default host and port 8080. 
 You can change the port in application.yml file.
 
 
