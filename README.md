@@ -7,17 +7,17 @@ The aim of this API is to manage real estate registry for building.
 How to run
 ----------
 
-After you run ApplicationBuilding class API will start on your default host and 8081 port. 
+After you run ApplicationBuilding class, API will start on your default host and port 8080. 
 You can change the port in application.yml file.
 
 
 API endpoints
 -------------
 
-To get data from API you can use simple curl requests or use implemented Swagger framework (http://host:port/swagger-ui.html#/)
+To update, post or get data from API you can use simple curl requests or use implemented Swagger framework (http://host:port/swagger-ui.html#/)
 
 
-+ /v1/buildings: 
++ /v1/buildings (GET or POST method):
     - Provides information about all buildings.
     - Saves new building if body provided. Exmple of request body: 
     {
@@ -33,9 +33,9 @@ To get data from API you can use simple curl requests or use implemented Swagger
     }
     - Returns BuildingNotFoundException if ID does not exist
 
-+ /v1/buildings/{id}: 
++ /v1/buildings/{id} (GET or PUT method): 
     - Provides information about building selected by ID.
-    - Updates building selected by ID. Example of request body: 
+    - Updates building selected by ID if body provided. Example of request body: 
     {
       "owner": "string",
       "address": {
@@ -49,12 +49,15 @@ To get data from API you can use simple curl requests or use implemented Swagger
     }
     - Returns BuildingNotFoundException if ID does not exist
     
- + /v1/buildings/owner/{owner}:
+ + /v1/buildings/owner/{owner} (GET method):
     - Provides information about buildings selected by owner
+    - Requires owner variable
     
-+ /v1/buildings/owner/{owner}/tax:
++ /v1/buildings/owner/{owner}/tax (GET method):
     - Calculates total yearly real estate tax for a particular owner
+    - Requires owner variable
     
-+ /v1/buildings/similar: (This endpoint requires street, city, type and size variables)
++ /v1/buildings/similar (GET method):
+    - Requires street, city, type and size variables
     - Returns up to 3 buildings of the same type on the same street that have the size most similar to the input parameter.
     Properties with higher market value have bigger priority.

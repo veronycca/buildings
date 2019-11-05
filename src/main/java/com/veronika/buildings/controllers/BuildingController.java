@@ -57,7 +57,7 @@ public class BuildingController {
     }
 
     @GetMapping("/owner/{owner}/tax")
-    public double  fetchTotalTaxByOwner(@PathVariable String owner) {
+    public double fetchTotalTaxByOwner(@PathVariable String owner) {
         return propertyTaxParamsToTotalTaxRate(buildingRepository.getBuildingsByOwner(owner));
     }
 
