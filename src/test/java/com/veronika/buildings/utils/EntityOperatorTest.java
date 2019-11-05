@@ -16,7 +16,6 @@ class EntityOperatorTest {
     void updateBuildingEntity() {
         BuildingEntity origingBuilding = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 10), 120_000.01,
                 PropertyType.APARTMENT, 130);
-
         Building newBuilding = building();
 
         BuildingEntity result = EntityOperator.updateBuildingEntity(origingBuilding, newBuilding);
