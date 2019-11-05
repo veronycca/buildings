@@ -8,6 +8,9 @@ public class Building {
     private PropertyType type;
     private int size;
 
+    public Building() {
+    }
+
     public Building(String owner, AddressEntity address, double value, PropertyType type, int size) {
         this.owner = owner;
         this.address = address;

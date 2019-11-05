@@ -9,6 +9,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long> {
     List<BuildingEntity> getBuildingsByOwner(String owner);
-    List<BuildingEntity> getSimilarBuildings(String city, String street, PropertyType propertyType,
-            int size);
+    List<BuildingEntity> getSimilarBuildings(String city, String street, PropertyType propertyType, int size);
 }

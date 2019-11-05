@@ -4,7 +4,6 @@ import static com.veronika.buildings.utils.TaxRateCalculator.propertyTaxParamsTo
 import static com.veronika.buildings.utils.EntityOperator.updateBuildingEntity;
 import static com.veronika.buildings.utils.EntityOperator.toBuildingEntity;
 
-import com.veronika.buildings.daos.BuildingDao;
 import com.veronika.buildings.exceptions.BuildingNotFoundException;
 import com.veronika.buildings.model.Building;
 import com.veronika.buildings.model.BuildingEntity;
@@ -36,7 +35,6 @@ public class BuildingController {
 
     @PostMapping
     public BuildingEntity saveNewBuilding(@RequestBody Building building) {
-
         return buildingRepository.save(toBuildingEntity(building));
     }
 
@@ -53,12 +51,10 @@ public class BuildingController {
 
     @PutMapping("/{id}")
     public BuildingEntity updateBuildingById(@RequestBody Building building, @PathVariable Long id) {
-
         return buildingRepository.findById(id)
-                .map(origin -> updateBuildingEntity(origin, building))
+                .map(origin -> buildingRepository.save(updateBuildingEntity(origin, building)))
                 .orElseThrow(() -> new BuildingNotFoundException(id));
     }
-
 
     @GetMapping("/owner/{owner}/tax")
     public double  fetchTotalTaxByOwner(@PathVariable String owner) {
