@@ -32,8 +32,9 @@ class BuildingDaoTest {
         List<BuildingEntity> buildingEntitiesByOwner = buildingRepository.getBuildingsByOwner("aw1");
 
         assertEquals(3, buildingEntitiesByOwner.size());
+        assertEquals("aw1", buildingEntitiesByOwner.get(0).getOwner());
         assertEquals("aw1", buildingEntitiesByOwner.get(1).getOwner());
-
+        assertEquals("aw1", buildingEntitiesByOwner.get(2).getOwner());
     }
 
     private void getSimilarBuildings() {
@@ -42,16 +43,21 @@ class BuildingDaoTest {
 
         assertEquals(3, similarBuildingEntities.size());
 
-        BuildingEntity result1 = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 10), 120_000.01,
+        BuildingEntity expected1 = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 10), 120_000.01,
                 PropertyType.APARTMENT, 130);
-        BuildingEntity result2 = newBuildingEntity("aw4", addressEntity("Vilnius", "Sodu", 13), 1_200_000.01,
+        BuildingEntity expected2 = newBuildingEntity("aw4", addressEntity("Vilnius", "Sodu", 13), 1_200_000.01,
                 PropertyType.APARTMENT, 120);
-        BuildingEntity result3 = newBuildingEntity("aw2", addressEntity("Vilnius", "Sodu", 11), 120.01,
+        BuildingEntity expected3 = newBuildingEntity("aw2", addressEntity("Vilnius", "Sodu", 11), 120.01,
                 PropertyType.APARTMENT, 140);
 
-        assertEquals(result1.getOwner(), similarBuildingEntities.get(0).getOwner());
-        assertEquals(result2.getOwner(), similarBuildingEntities.get(1).getOwner());
-        assertEquals(result3.getOwner(), similarBuildingEntities.get(2).getOwner());
+        assertEquals(expected1.getOwner(), similarBuildingEntities.get(0).getOwner());
+        assertEquals(expected2.getOwner(), similarBuildingEntities.get(1).getOwner());
+        assertEquals(expected3.getOwner(), similarBuildingEntities.get(2).getOwner());
+
+        List<BuildingEntity> similarBuildingEntities2 = buildingRepository
+                .getSimilarBuildings("Vilnius", "Sodu", PropertyType.INDUSTRIAL, 10);
+
+        assertEquals(1, similarBuildingEntities2.size());
     }
 
     private void loadDB() {

@@ -14,13 +14,17 @@ class EntityOperatorTest {
 
     @Test
     void updateBuildingEntity() {
-        BuildingEntity origingBuilding = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 10), 120_000.01,
-                PropertyType.APARTMENT, 130);
+        BuildingEntity origingBuilding = newBuildingEntity("aw1", addressEntity("Kaunas", "Sodu", 1110), 120_000.01,
+                PropertyType.APARTMENT, 1300);
         Building newBuilding = building();
 
         BuildingEntity result = EntityOperator.updateBuildingEntity(origingBuilding, newBuilding);
 
         assertEquals(newBuilding.getOwner(), result.getOwner());
+        assertEquals(newBuilding.getSize(), result.getSize());
+        assertEquals(newBuilding.getType(), result.getType());
+        assertEquals(newBuilding.getValue(), result.getValue());
+        assertEquals(newBuilding.getAddress().getCity(), result.getAddress().getCity());
     }
 
     @Test
