@@ -16,9 +16,9 @@ class TaxRateCalculatorTest {
     void testPropertyTaxParamsToTotalTaxRate() {
         BuildingEntity result1 = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 10),
                 120_000.01, PropertyType.APARTMENT, 130);
-        BuildingEntity result2 = newBuildingEntity("aw4", addressEntity("Vilnius", "Sodu", 13),
+        BuildingEntity result2 = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 13),
                 1_200_000.01, PropertyType.INDUSTRIAL, 120);
-        BuildingEntity result3 = newBuildingEntity("aw2", addressEntity("Vilnius", "Sodu", 11),
+        BuildingEntity result3 = newBuildingEntity("aw1", addressEntity("Vilnius", "Sodu", 11),
                 120.01, PropertyType.HOUSE, 140);
         List<BuildingEntity> buildingEntities = asList(result1, result2, result3);
 
